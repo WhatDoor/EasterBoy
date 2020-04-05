@@ -23,82 +23,123 @@ const teams = {'696164744653963365':{'progress':0, 'teamNum':1},
 '696222704168206366':{'progress':0, 'teamNum':7}, 
 '696222728428191794':{'progress':0, 'teamNum':8}}
 
-const segment = []
+const segment = [intro, sourceCode, seg2_story, luke22_3, 
+    seg4_story, judaslunchwear, judasluncheat, seg7_story,
+    cryptoJingle, seg9_story, morse, seg11_story, whereBarabbas, seg13_story]
 
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+    console.log(`Logged in as ${client.user.tag}!`);
+
+    client.channels.fetch('696165017715998767').then(channel => {
+        packageAndSend("I am ready - type !startgame to start the game", channel)
+    })
 });
 
 client.on('message', msg => {
-
     if (msg.content.charAt(0) === '!') {
-        messageContent = msg.content.substr(1)
+        messageContent = msg.content.substr(1).toLowerCase()
+        console.log(messageContent);
 
-        if (checkAnswer(messageContent, teams[msg.channel.id].progress)) {
-            //Progress to next segment
-            teams[msg.channel.id].progress++
-            
+        if (msg.channel.id == '696165017715998767') { //Check if message is from master
+            if (messageContent == 'startgame') {
+                for (teamID in teams) {
+                    client.channels.fetch(teamID).then(channel => {
+                        segment[teams[channel.id]['progress']](channel)
+                    })
+                }
+            }
+
         } else {
-            //Reject and send retry message
-            msg.channel.send("Sorry, please try again...")
+            if (checkAnswer(messageContent, teams[msg.channel.id]['progress'])) {
+                //Progress to next segment
+                teams[msg.channel.id]['progress']++
+
+                segment[teams[msg.channel.id]['progress']](msg.channel)
+                
+            } else {
+                //Reject and send retry message
+                packageAndSend("Sorry, please try again...", msg.channel)
+            }
         }
     }
 });
 
-function intro() {
-
+function intro(channel) {
+    packageAndSend("INTRO INTRO INTRO, type !continue to continue", channel)
 }
 
-function sourceCode() {
-    
+function sourceCode(channel) {
+    packageAndSend("STORY PROMPT FOR SOURCE CODE TRAILER - http://203.51.36.16/trailer", channel)
 }
 
-function seg2_story() {
-    
+function seg2_story(channel) {
+    packageAndSend("2 - STORY, type !continue to continue", channel)
 }
 
-function luke22_3() {
-    
+function luke22_3(channel) {
+    packageAndSend("STORY PROMPT FOR LUKE22:3 - http://203.51.36.16/XXXXXXXXXX", channel)
 }
 
-function seg4_story() {
-    
+function seg4_story(channel) {
+    packageAndSend("4 - STORY, type !continue to continue", channel)
 }
 
-function judaslunchwear() {
-    
+function judaslunchwear(channel) {
+    packageAndSend("STORY PROMPT FOR JUDAS LUNCH - what is he wearing? - http://203.51.36.16/judasfood", channel)
 }
 
-function judasluncheat() {
-    
+function judasluncheat(channel) {
+    packageAndSend("STORY PROMPT FOR JUDAS LUNCH - where is he eating?", channel)
 }
 
-function seg7_story() {
-    
+function seg7_story(channel) {
+    packageAndSend("7 - STORY, type !continue to continue", channel)
 }
 
-function cryptoJingle() {
-    
+function cryptoJingle(channel) {
+    packageAndSend("STORY PROMPT FOR crypto - VRQJ: HHH HHH HJFGH - cryptography 3", channel)
 }
 
-function seg9_story() {
-    
+function seg9_story(channel) {
+    packageAndSend("9 - STORY, type !continue to continue", channel)
 }
 
-function morse() {
-    
+function morse(channel) {
+    packageAndSend("STORY PROMPT FOR MORSE - http://203.51.36.16/morse", channel)
 }
 
-function seg11_story() {
-    
+function seg11_story(channel) {
+    packageAndSend("11 - STORY, type !continue to continue", channel)
 }
 
-function whereBarabbas() {
-    
+function whereBarabbas(channel) {
+    packageAndSend("STORY PROMPT FOR Where in the world Barabbas?", channel)
+    packageAndSendImage("https://i.imgur.com/vrtmeAr.png", channel)
+    packageAndSendImage("https://i.imgur.com/mOrE9eY.png", channel)
 }
 
-function seg13_story() {
+function seg13_story(channel) {
+    packageAndSend("FINAL STORY BIT - THE END", channel)
+}
+
+function packageAndSend(message, channel) {
+    const embedMessage = new Discord.MessageEmbed()
+        .setColor('#FFA500')
+        .setDescription(message)
+        .setTimestamp()
+        .setFooter('Made for Tehillah Easter 2020')
     
+    channel.send(embedMessage);
+}
+
+function packageAndSendImage(imagelink, channel) {    
+    const embedMessage = new Discord.MessageEmbed()
+        .setColor('#FFA500')
+        .setImage(imagelink)
+        .setTimestamp()
+        .setFooter('Made for Tehillah Easter 2020')
+    
+    channel.send(embedMessage);
 }
 
 
