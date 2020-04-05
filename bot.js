@@ -31,14 +31,13 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 
     client.channels.fetch('696165017715998767').then(channel => {
-        packageAndSend("I am ready - type !startgame to start the game", channel)
+        packageAndSend("I am ready - type !startgame to start the game\n(remember to run the html server before starting)", channel)
     })
 });
 
 client.on('message', msg => {
     if (msg.content.charAt(0) === '!') {
         messageContent = msg.content.substr(1).toLowerCase()
-        console.log(messageContent);
 
         if (msg.channel.id == '696165017715998767') { //Check if message is from master
             if (messageContent == 'startgame') {
@@ -50,11 +49,15 @@ client.on('message', msg => {
             }
 
         } else {
+            console.log(`Team ${teams[msg.channel.id]['teamNum']} input ${messageContent}`);
+
             if (checkAnswer(messageContent, teams[msg.channel.id]['progress'])) {
                 //Progress to next segment
                 teams[msg.channel.id]['progress']++
 
                 segment[teams[msg.channel.id]['progress']](msg.channel)
+
+                updateMasterwithProgress()
                 
             } else {
                 //Reject and send retry message
@@ -63,6 +66,19 @@ client.on('message', msg => {
         }
     }
 });
+
+function updateMasterwithProgress() {
+    updateString = ""
+
+    for (teamID in teams) {
+        team = teams[teamID]
+        updateString = updateString + `Team ${team['teamNum']} - ${team['progress']}\n`
+    }
+
+    client.channels.fetch('696165017715998767').then(channel => {
+        packageAndSend(updateString, channel)
+    })
+}
 
 function intro(channel) {
     packageAndSend("INTRO INTRO INTRO, type !continue to continue", channel)
