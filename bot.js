@@ -27,7 +27,7 @@ const teams = {'696164744653963365':{'progress':0, 'teamNum':1},
 '696222704168206366':{'progress':0, 'teamNum':7}, 
 '696222728428191794':{'progress':0, 'teamNum':8}}
 
-const placing = 0
+let placing = 0
 
 const segment = [intro, sourceCode, seg2_story, luke22_3, 
     seg4_story, judaslunchwear, judasluncheat, seg7_story,
@@ -117,6 +117,7 @@ function luke22_3(channel) {
 }
 
 function seg4_story(channel) {
+    packageAndSend("SEND A PICTURE OF UNLOCKED SAFE", channel)
     packageAndSend("4 - STORY, type !continue to continue", channel)
 }
 
@@ -159,10 +160,11 @@ function seg13_story(channel) {
     placing++
 
     packageAndSend("FINAL STORY BIT - THE END", channel)
-    packageAndSend(`FINISH TIME: ${elapsedTime[0]} minutes and ${elapsedTime[1]} seconds`, channel)
 
     if (placing < 4) {
-        packageAndSend(`Congratulations, you finished ${ordinal(placing)}!`, channel)
+        packageAndSend(`Congratulations, you finished ${ordinal(placing)}!\nFINISH TIME: ${elapsedTime[0]} minutes and ${elapsedTime[1]} seconds`, channel)
+    } else {
+        packageAndSend(`Thank you for playing!\nFINISH TIME: ${elapsedTime[0]} minutes and ${elapsedTime[1]} seconds`, channel)
     }
 }
 
@@ -210,7 +212,7 @@ function checkAnswer(answer, segment) {
             correctAns = 'purple singlet'
             break;
         case 6:
-            correctAns = 'Abu Hassan'
+            correctAns = 'abu hassan'
             break;
         case 7:
             correctAns = 'continue'
