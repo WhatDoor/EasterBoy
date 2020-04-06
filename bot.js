@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const auth = require('./auth.json');
 const date = require('date-and-time')
+const ordinal = require('ordinal')
 
 let startTime = undefined;
 
@@ -25,6 +26,8 @@ const teams = {'696164744653963365':{'progress':0, 'teamNum':1},
 '696222676351451247':{'progress':0, 'teamNum':6}, 
 '696222704168206366':{'progress':0, 'teamNum':7}, 
 '696222728428191794':{'progress':0, 'teamNum':8}}
+
+const placing = 0
 
 const segment = [intro, sourceCode, seg2_story, luke22_3, 
     seg4_story, judaslunchwear, judasluncheat, seg7_story,
@@ -153,9 +156,14 @@ function whereBarabbas(channel) {
 
 function seg13_story(channel) {
     elapsedTime = getElapsedTime()
+    placing++
 
     packageAndSend("FINAL STORY BIT - THE END", channel)
     packageAndSend(`FINISH TIME: ${elapsedTime[0]} minutes and ${elapsedTime[1]} seconds`, channel)
+
+    if (placing < 4) {
+        packageAndSend(`Congratulations, you finished ${ordinal(placing)}!`, channel)
+    }
 }
 
 function packageAndSend(message, channel) {
