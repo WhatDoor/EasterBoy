@@ -1,6 +1,9 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const auth = require('./auth.json');
+const date = require('date-and-time')
+
+let startTime = undefined;
 
 // master - 696165017715998767
 // team1 - 696164744653963365
@@ -12,7 +15,7 @@ const auth = require('./auth.json');
 // team7 - 696222704168206366
 // team8 - 696222728428191794
 
-masterID = '696165017715998767'
+const masterID = '696165017715998767'
 
 const teams = {'696164744653963365':{'progress':0, 'teamNum':1}, 
 '696164824589008897':{'progress':0, 'teamNum':2}, 
@@ -46,6 +49,9 @@ client.on('message', msg => {
                         segment[teams[channel.id]['progress']](channel)
                     })
                 }
+
+                startTime = new Date();
+                packageAndSend(`Game Started at ${date.format(startTime, 'HH:mm:ss')}`, msg.channel)
             }
 
         } else {
@@ -67,8 +73,19 @@ client.on('message', msg => {
     }
 });
 
+function getElapsedTime() {
+    let now = new Date();
+    let elapsedTime = date.subtract(now, startTime).toMinutes();
+    let minutes = Math.floor(elapsedTime)
+    let seconds = Math.floor((elapsedTime - minutes) * 60)
+
+    return [minutes, seconds]
+}
+
 function updateMasterwithProgress() {
-    updateString = ""
+    elapsedTime = getElapsedTime()
+
+    updateString = `Current Progress - Time Elapsed: ${elapsedTime[0]} minutes and ${elapsedTime[1]} seconds\n`
 
     for (teamID in teams) {
         team = teams[teamID]
@@ -135,7 +152,10 @@ function whereBarabbas(channel) {
 }
 
 function seg13_story(channel) {
+    elapsedTime = getElapsedTime()
+
     packageAndSend("FINAL STORY BIT - THE END", channel)
+    packageAndSend(`FINISH TIME: ${elapsedTime[0]} minutes and ${elapsedTime[1]} seconds`, channel)
 }
 
 function packageAndSend(message, channel) {
