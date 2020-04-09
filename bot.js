@@ -61,29 +61,33 @@ client.on('message', msg => {
             currentTeam = teams[msg.channel.id]
             console.log(`Team ${currentTeam['teamNum']} input ${messageContent}`);
 
-            if (checkAnswer(messageContent, currentTeam['progress'])) {
-
-                console.log(currentTeam['storyProgress']);
-                
-                //If the team is receiving a story segment:
-                //  storyProgress should be 0 - X
-                //  otherwise, -1 to indicate the end of the segment/ waiting for answer + need to progress to next segment
-                if (currentTeam['storyProgress'] == -1) {
-                    //Progress to next segment
-                    currentTeam['progress']++
-
-                    segment[currentTeam['progress']](msg.channel, currentTeam) //If the new segment is a story, that segment will change storyProgress from -1 to 0 at the start
-
-                    updateMasterwithProgress()
+            if (!currentTeam['blocking']) {
+                if (checkAnswer(messageContent, currentTeam['progress'])) {                
+                    //If the team is receiving a story segment:
+                    //  storyProgress should be 0 - X
+                    //  otherwise, -1 to indicate the end of the segment/ waiting for answer + need to progress to next segment
+                    //             -2 to indicate that they have finished the game
+                    if (currentTeam['storyProgress'] == -1) {
+                        //Progress to next segment
+                        currentTeam['progress']++
+    
+                        segment[currentTeam['progress']](msg.channel, currentTeam) //If the new segment is a story, that segment will change storyProgress from -1 to 0 at the start
+    
+                        updateMasterwithProgress()
+                    } else if (currentTeam['storyProgress'] == -2) {
+                        //Tell players that their game is over
+                        packageAndSend("Sorry, but you've already completed the game!", msg.channel)
+    
+                    }else {
+                        //Progress to next story bit
+                        currentTeam['storyProgress']++
+    
+                        segment[currentTeam['progress']](msg.channel, currentTeam)
+                    }
                 } else {
-                    //Progress to next story bit
-                    currentTeam['storyProgress']++
-
-                    segment[currentTeam['progress']](msg.channel, currentTeam)
+                    //Reject and send retry message
+                    packageAndSend(generateRetryMessage(currentTeam['progress']), msg.channel)
                 }
-            } else {
-                //Reject and send retry message
-                packageAndSend("Sorry, please try again...", msg.channel)
             }
         }
     }
@@ -120,34 +124,27 @@ async function intro(channel, currentTeam) {
 
     if (currentTeam['storyProgress'] == 0) {
         packageAndSend("It is Saturday night, 7:35pm. You are sitting in front of your computer, logged into the Tehillah Discord server. You are barely paying attention, watching Youtube in a different window while someone blares on about another .io game. Outside a dog barks.", channel)
-        await sleep(2500)
+        await sleep(10000)
         packageAndSend("Suddenly, your screen goes black, except for a blinking terminal cursor...", channel)
-        await sleep(1000)
+        await sleep(4000)
         packageAndSend("You wiggle your mouse and press your keyboard. Nothing.", channel)
-        await sleep(1000)
+        await sleep(4000)
         packageAndSend("Word by word, a message slowly prints itself on your screen in searing white text.", channel)
-        await sleep(1000)
-        packageAndSend("```     SAVE EASTER```", channel)
-        await sleep(3000)
+        await sleep(4000)
+        packageAndSend("```          SAVE EASTER```", channel)
+        await sleep(6000)
         packageAndSend("A bright light erupts from your screen and you feel yourself becoming lightheaded...", channel)
-        await sleep(1000)
-        packageAndSend("enter !continue to continue", channel)
 
     } else if (currentTeam['storyProgress'] == 1) {
         packageAndSend("You wake up in a dark dusty room. You are with two friends. Outside your room you see Peter and John gathering bread and wine. One of your friends mentions something about the last Passover. Could it be? Have you been transported back two thousand years to 33 AD?", channel)
-        await sleep(1000)
-        packageAndSend("enter !continue to continue", channel)
-
-    } else if (currentTeam['storyProgress'] == 2) {
+        await sleep(8000)
         packageAndSend("You find scraps of paper on the ground. One of them is a note in capital letters:", channel)
-        await sleep(1000)
-        packageAndSend("```A GROUP OF MISINFORMED CHRISTIANS HAVE TRAVELLED BACK IN TIME TO PREVENT THE CRUXIFICTION OF JESUS. IN ORDER TO SAVE EASTER, YOU MUST FOIL THEIR PLANS```", channel)
-        await sleep(2000)
-        packageAndSend("You turn to one of your friends. They are panic-stricken. “If Jesus isn’t crucified, then who will atone for our sins? How can Jesus rise from the grave if he was never crucified?” You fumble through the other pieces of paper. They are individually numbered, each containing notes and diagrams. It dawns on you that together they constitute a scheme concocted by the misinformed Christians to interfere with Jesus’ crucifixion.", channel)
         await sleep(4000)
+        packageAndSend("```A GROUP OF MISINFORMED CHRISTIANS HAVE TRAVELLED BACK IN TIME TO PREVENT THE CRUCIFIXION OF JESUS. IN ORDER TO SAVE EASTER, YOU MUST FOIL THEIR PLANS```", channel)
+        await sleep(8000)
+        packageAndSend("You turn to one of your friends. They are panic-stricken. “If Jesus isn’t crucified, then who will atone for our sins? How can Jesus rise from the grave if he was never crucified?” You fumble through the other pieces of paper. They are individually numbered, each containing notes and diagrams. It dawns on you that together they constitute a scheme concocted by the misinformed Christians to interfere with Jesus’ crucifixion.", channel)
+        await sleep(8000)
         packageAndSend("Outside, you see the chief priests having lunch at a kebab restaurant. Your friend turns to you urgently – “What are we going to do?”", channel)
-        await sleep(1000)
-        packageAndSend("enter !continue to continue", channel)
 
         //END OF SEGMENT
         currentTeam['storyProgress'] = -1
@@ -156,10 +153,8 @@ async function intro(channel, currentTeam) {
 
 async function sourceCode(channel, currentTeam) {
     packageAndSend("You find a scrap of paper one the ground which outlines a plan to steal money from the chief priests. You read that they plan to steal money from the Treasurer of the priests, but their name is illegible.", channel)
-    await sleep(2000)
-    packageAndSend("You furrow your brow, closely studying the paper. Is that an “a” or an “e”?", channel)
-    await sleep(1000)
-    packageAndSend("http://tehillaheaster2020.xyz/trailer", channel)
+    await sleep(6000)
+    packageAndSend("You furrow your brow, closely studying the paper. Is that an “a” or an “e”?\n\nhttp://tehillaheaster2020.xyz/trailer", channel)
 
     //END OF SEGMENT
     currentTeam['storyProgress'] = -1
@@ -325,6 +320,9 @@ async function seg13_story(channel, currentTeam) {
         } else {
             packageAndSend(`Thank you for playing!\nFINISH TIME: ${elapsedTime[0]} minutes and ${elapsedTime[1]} seconds`, channel)
         }
+
+        //END OF GAME
+        currentTeam['storyProgress'] = -2
     }   
 }
 
@@ -352,6 +350,56 @@ function packageAndSendImage(imagelink, channel) {
     channel.send(embedMessage);
 }
 
+function generateRetryMessage(segment) {
+    message = ''
+
+    switch (segment) {
+        case 0:
+            message = 'Please use the !continue command...'
+            break;
+        case 1:
+            message = 'Sorry, I don\'t understand... What is the treasurer\'s name?'
+            break;
+        case 2:
+            message = 'Please use the !continue command...'
+            break;
+        case 3:
+            message = 'I don\'t think that\'s it, we need the code to the safe...'
+            break;
+        case 4:
+            message = 'Please use the !continue command...'
+            break;
+        case 5:
+            message = 'I don\'t understand... what is Judas wearing?'
+            break;
+        case 6:
+            message = 'I don\'t understand... what is Judas going to be?'
+            break;
+        case 7:
+            message = 'Please use the !continue command...'
+            break;
+        case 8:
+            message = 'The letters you entered flash red and disappear as soon as you enter them...'
+            break;
+        case 9:
+            message = 'Please use the !continue command...'
+            break;
+        case 10:
+            message = 'That does\'nt seem like the place we need to go...'
+            break;
+        case 11:
+            message = 'Please use the !continue command...'
+            break;
+        case 12:
+            message = 'I don\'t think he would be there... Where in the world is Barrabas??'
+            break;
+        case 13:
+            message = 'Please use the !continue command...'
+            break;
+    }
+
+    return message
+}
 
 function checkAnswer(answer, segment) {
     correctAns = ''
