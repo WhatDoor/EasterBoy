@@ -15,6 +15,6 @@ A discord bot game for a Tehillah Easter Event
 8. run: node bot.js
 9. type !startgame into master to start the game, then remember to start all answers with an '!'
 
-Warning - typing any commands into answerLog, master after you started the game, or any other text channel not listed above will crash the bot. 
+Warning - typing any answers into answerLog, master after you started the game, or any other text channel not listed above will crash the bot. 
 
 # Finding server IDs
