@@ -20,6 +20,9 @@ const teams = {'696164744653963365':{'progress':0, 'teamNum':1, 'storyProgress':
 '696222704168206366':{'progress':0, 'teamNum':7, 'storyProgress':0}, //team7
 '696222728428191794':{'progress':0, 'teamNum':8, 'storyProgress':0}} //team8
 
+// REPLACE THIS domain with your own domain OR your external IP address
+const domain = 'http://tehillaheaster2020.xyz'
+
 let placing = 0
 
 const DELAY_CONSTANT = 3000
@@ -129,7 +132,7 @@ async function intro_sourceCode(channel, currentTeam) {
     packageAndSendImage("https://i.imgur.com/Oibaf8d.png", channel)
     packageAndSend("Outside, you see the chief priests having lunch at a kebab restaurant. Your friend turns to you urgently – “What are we going to do?”", channel)
     await sleep(8000)
-    packageAndSend("You read on the paper that the bandits plan to steal money from one the chief priests. In fact, they plan to steal from the Treasurer of the priests, but their name is illegible. Maybe if you figure out who the Treasurer is, you can stop them from stealing his money! You furrow your brow, closely studying the paper. Unfortunately you can barely make anything out. Is that an “a” or an “e”?\n\nhttp://tehillaheaster2020.xyz/source_code", channel)
+    packageAndSend("You read on the paper that the bandits plan to steal money from one the chief priests. In fact, they plan to steal from the Treasurer of the priests, but their name is illegible. Maybe if you figure out who the Treasurer is, you can stop them from stealing his money! You furrow your brow, closely studying the paper. Unfortunately you can barely make anything out. Is that an “a” or an “e”?\n\n" + domain + "/source_code", channel)
 }
 
 async function seg2_story_luke22_3(channel, currentTeam) {
@@ -138,7 +141,7 @@ async function seg2_story_luke22_3(channel, currentTeam) {
     packageAndSend("Your group thinks of a different idea. What if you deposited 30 silver right into the Treasurer’s chest? After all, the plan conveniently notes its address. You open the door to face the bright Isreali sun, and make your way there.", channel)
     await sleep(7000)
     packageAndSendImage("https://i.imgur.com/yGfHB8W.png", channel)
-    packageAndSend("After some searching, you finally locate the chest. On the chest door is a primitive combination lock, requiring a 4 digit code. You look back at your slip of paper, and on it reads “__L__uke 22:3” (NIV).\n\nhttp://tehillaheaster2020.xyz/insert10charactershere", channel)
+    packageAndSend("After some searching, you finally locate the chest. On the chest door is a primitive combination lock, requiring a 4 digit code. You look back at your slip of paper, and on it reads “__L__uke 22:3” (NIV).\n\n" + domain + "/insert10charactershere", channel)
 }
 
 async function seg4_story_judaslunchwear(channel, currentTeam) {
@@ -149,7 +152,7 @@ async function seg4_story_judaslunchwear(channel, currentTeam) {
     await sleep(8000)
     packageAndSend("But where is Judas? And even if we knew, how are we supposed to know what he looks like?", channel)
     await sleep(5000)
-    packageAndSend("On the back of the paper you find a grainy picture.\n\nhttp://tehillaheaster2020.xyz/judasfood", channel)
+    packageAndSend("On the back of the paper you find a grainy picture.\n\n" + domain + "/judasfood", channel)
     await sleep(5000)
     packageAndSend("First things first, what is Judas wearing?", channel)
 }
@@ -179,7 +182,7 @@ async function seg9_story_morse(channel, currentTeam) {
     packageAndSend("You are standing in the crowd at the trial. The stands are packed. Luckily, you find yourself right at the front, so close that you can overhear Pilate as he prepares to address the crowd. He is angrily shouting at an underling. “What do you mean you can’t find Barabbas? Find him now!” You turn to your friends. “Without Barabbas to set free, Pilate will have no choice but to release Jesus!” Somehow, you must find Barabbas.", channel)
     await sleep(12000)
 
-    packageAndSend("Pushing your way out of the crowds, you make your way to a small clearing to gather your thoughts. Lo and behold, you stumble across more papers! This time, you find a small smartphone playing a weird noise. On the back, it says in ugly handwriting: baraBbas lOCation. But how on earth are you supposed to figure out his location from this random sound? Or perhaps the beeping means something?\n\nhttp://tehillaheaster2020.xyz/baraloc", channel)
+    packageAndSend("Pushing your way out of the crowds, you make your way to a small clearing to gather your thoughts. Lo and behold, you stumble across more papers! This time, you find a small smartphone playing a weird noise. On the back, it says in ugly handwriting: baraBbas lOCation. But how on earth are you supposed to figure out his location from this random sound? Or perhaps the beeping means something?\n\n" + domain + "/baraloc", channel)
 }
 
 async function seg11_story_whereBarabbas(channel, currentTeam) {
