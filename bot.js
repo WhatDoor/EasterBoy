@@ -6,28 +6,19 @@ const ordinal = require('ordinal')
 
 let startTime = undefined;
 
-// master - 696165017715998767
-// team1 - 696164744653963365
-// team2 - 696164824589008897
-// team3 - 696164868625268826
-// team4 - 696164907640553482
-// team5 - 696164930835185664
-// team6 - 696222676351451247
-// team7 - 696222704168206366
-// team8 - 696222728428191794
-
+// Need to replace these with your text channel IDs 
 const masterID = '696165017715998767'
-
 const answerLogID = '698412789491826719'
 
-const teams = {'696164744653963365':{'progress':0, 'teamNum':1, 'storyProgress':0}, 
-'696164824589008897':{'progress':0, 'teamNum':2, 'storyProgress':0}, 
-'696164868625268826':{'progress':0, 'teamNum':3, 'storyProgress':0}, 
-'696164907640553482':{'progress':0, 'teamNum':4, 'storyProgress':0}, 
-'696164930835185664':{'progress':0, 'teamNum':5, 'storyProgress':0}, 
-'696222676351451247':{'progress':0, 'teamNum':6, 'storyProgress':0}, 
-'696222704168206366':{'progress':0, 'teamNum':7, 'storyProgress':0}, 
-'696222728428191794':{'progress':0, 'teamNum':8, 'storyProgress':0}}
+// THESE ARE THE ORIGINAL IDs I USED, but you have to generate the IDs for your own server and fill it into the teams object below
+const teams = {'696164744653963365':{'progress':0, 'teamNum':1, 'storyProgress':0}, //team1
+'696164824589008897':{'progress':0, 'teamNum':2, 'storyProgress':0}, //team2
+'696164868625268826':{'progress':0, 'teamNum':3, 'storyProgress':0}, //team3
+'696164907640553482':{'progress':0, 'teamNum':4, 'storyProgress':0}, //team4
+'696164930835185664':{'progress':0, 'teamNum':5, 'storyProgress':0}, //team5
+'696222676351451247':{'progress':0, 'teamNum':6, 'storyProgress':0}, //team6
+'696222704168206366':{'progress':0, 'teamNum':7, 'storyProgress':0}, //team7
+'696222728428191794':{'progress':0, 'teamNum':8, 'storyProgress':0}} //team8
 
 let placing = 0
 
