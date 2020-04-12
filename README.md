@@ -11,8 +11,8 @@ A discord bot virtual puzzle room for a Tehillah Easter Event
 4. run: npm install
 5. Create the following text channels - master, answerLog, team1, team2, team3, team4, team5, team6, team7, team8
 6. Find the channel IDs for them (see below) and add them to the code, replacing the IDs as appropriate in bot.js
-7. run: node server.js
-8. Set up networking (see below)
+7. Set up networking (see below)
+8. run: node server.js
 9. run: node bot.js
 10. type !startgame into master to start the game, then remember to start all answers with an '!'
 
